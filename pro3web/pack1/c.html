@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    ---table(표) tag---<br>
+    <table border="1">
+        <tr>
+            <th>번호</th><th>이름</th><th>주소</th>
+        </tr>
+        <tr>
+            <td width="100">1</td><td>가나다</td><td>강남구 역삼동</td>
+        </tr>
+        <tr>
+            <td>2</td><td></td><td></td>
+        </tr>
+    </table>
+<br>
+열병합, 행병합<br>
+<table border="1" width="200">
+    <tr>
+        <td colspan="2">a</td>
+        <td>b</td>
+        <td rowspan="2">c</td>
+    </tr>
+    <tr>
+        <td>d</td>
+
+        <td>cell(셀)</td>
+        <td><table border="2">
+            <tr>
+                <td>kor</td>
+                <td>eng</td>
+            </tr>
+        </table>
+        </td>
+    </tr>
+</table>
+<hr>
+--- from 태그(자료 입력용 태그) ---
+<form method="get">
+    1. 이름 : <input type="text" name="name" id="irum" value="이기자" size="30" readonly><br>
+    2. 비밀면호 : <input type="password" name="pwd"><br>
+    3. 메세지 : <textarea name="msg" cols="50" rows="5">멀티라인 텍스트 박스</textarea><br>
+    4. 학년 : <input type="radio" name="hak" value="1" checked>1학년
+              <input type="radio" name="hak" value="2">2학년
+              <input type="radio" name="hak" value="3">3학년
+              <input type="radio" name="hak" value="4">4학년
+              <br>
+    5. 과목 : <input type="checkbox" name="gwa" value="python">파이썬&nbsp;&nbsp;&nbsp;
+              <input type="checkbox" name="gwa" value="c">c언어&nbsp;&nbsp;&nbsp;
+              <input type="checkbox" name="gwa" value="java">자바&nbsp;&nbsp;&nbsp;
+    6. 지역 : <select name="addr"> <!-- multiple이란 것도 있음 -->
+                  <option value="c" selected>시청</option>
+                  <option value="j">종로</option>
+                  <option value="k">강남</option>
+              </select>
+              <br>
+    7. <input type="file" name="fname"><br>
+    8. 숨김 : <input type="hidden" name="ji" value="대한민국">
+    <br><br>
+    <input type="submit" value="전송 확인">
+    <input type="reset" value="입력 취소">
+
+
+
+
+
+</form>
+</body>
+</html>
