@@ -1,35 +1,27 @@
-import pandas as pd
+import tensorflow as tf
 import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import r2_score, mean_squared_error
 
+mnist = tf.keras.datasets.mnist
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
 
-df = pd.read_csv('bike_dataset.csv')
+x_train = x_train.reshape(-1, 28, 28, 1) / 255.0
+x_test = x_test.reshape(-1, 28, 28, 1) / 255.0
 
-df['datetime'] = pd.to_datetime(df['datetime'])
-df['hour'] = df['datetime'].dt.hour
+model = tf.keras.models.Sequential([
+    tf.keras.layers.Input(shape=(28, 28, 1)),
+    tf.keras.layers.Conv2D(filters=32, kernel_size=(3, 3), activation='relu'),
+    tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(units=10, activation='softmax')
+])
 
-features = ['season', 'holiday', 'workingday', 'weather', 'temp', 'atemp', 'humidity', 'windspeed', 'hour']
-X = df[features]
-y = df['count']
+model.compile(optimizer='adam',
+            loss='sparse_categorical_crossentropy',
+            metrics=['accuracy'])
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+print(model.summary())
 
-model = RandomForestRegressor(n_estimators=100, random_state=42)
-model.fit(X_train, y_train)
+model.fit(x_train, y_train, epochs=3, batch_size=128)
 
-y_pred = model.predict(X_test)
-r2 = r2_score(y_test, y_pred)
-
-comparison = pd.DataFrame({'실제값': y_test, '예측값': np.round(y_pred, 0)})
-
-print("예측값 / 실제값")
-print(comparison)
-
-print(f"\n결정계수: {r2:.4f}")
-
-importances = pd.Series(model.feature_importances_, index=features).sort_values(ascending=False)
-print("\n예측 결과 및 변수 중요도")
-print(importances)
+test_loss, test_acc = model.evaluate(x_test, y_test, verbose=0)
+print(f'\n테스트 정확도: {test_acc:.4f}')
