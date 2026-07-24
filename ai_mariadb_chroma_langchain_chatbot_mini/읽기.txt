@@ -1,0 +1,55 @@
+MariaDB 조회 + Chroma 검색 + LLM 답변 생성 흐름 이해용 실습
+
+구성은 단순합니다.
+
+edu_ai_chatbot_mini/
+├─ mini_chatbot.py       # 핵심 코드 전체
+├─ create_database.sql   # MariaDB DB 생성 SQL
+├─ .env.example          # 환경변수 예시
+├─ requirements.txt      # 설치 패키지
+└─ README.md
+
+핵심 흐름은 이 정도만 남겼습니다.
+
+질문 입력
+ ↓
+MariaDB에서 교육생 정보 조회
+ ↓
+Chroma VectorDB에서 수료 기준 문서 검색
+ ↓
+LangChain이 LLM에게 전달
+ ↓
+상담 답변 생성
+
+수업에서 설명하기 좋은 예시 질문도 넣어두었습니다.
+
+홍길동 교육생은 현재 수료 가능성이 있나요?
+김민수 교육생은 출석률 때문에 상담이 필요한가요?
+이영희 교육생에게 어떤 취업지원을 안내하면 좋을까요?
+
+예제 안의 데이터도 아주 작게 줄였습니다.
+
+MariaDB 데이터
+
+홍길동: 출석률 82.5%, 평가점수 75점
+김민수: 출석률 72.0%, 평가점수 68점
+이영희: 출석률 91.0%, 평가점수 88점
+
+VectorDB 문서
+
+수료 기준: 출석률 80% 이상, 평가 점수 60점 이상
+출결 관리: 출석률 80% 미만은 상담 필요
+취업지원: 이력서 첨삭, 포트폴리오 점검, 모의면접 제공
+
+실행 순서는 간단합니다.
+
+pip install -r requirements.txt
+mysql -u root -p < create_database.sql
+copy .env.example .env
+python mini_chatbot.py
+
+이 버전은 교육생에게 이렇게 설명하면 좋습니다.
+
+MariaDB는 숫자와 상태를 가져오는 곳이고,
+VectorDB는 규정 문서를 찾는 곳이고,
+LangChain은 둘을 LLM에게 연결해주는 역할이다.
